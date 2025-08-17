@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+//取得した詳細の名前などの情報を保存する
 type PokemonDetail = {
   id: number;
   name: string;
@@ -8,12 +8,19 @@ type PokemonDetail = {
   sprites: { front_default: string };
   types: { type: { name: string } }[];
 };
-
+//IDで詳細情報を取得する。
 async function getPokemon(id: string) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
   return res.json();
 }
+//ホーム画面で選択したポケモンのIDから、取得するIDを決定する
 
+/*
+以下は表示部分
+pokemon.name, pokemon.sprites.front_default　で、ポケモンの名前(英語名)及び画像を表示する
+table で、ID,身長，体重，タイプを整列して表示する。タイプについては","で区切って表示する
+<Link href="/">← 戻る</Link>　で、ホーム・検索画面に遷移する。
+*/
 export default async function PokemonPage({ params }: { params: { id: string } }) {
   const pokemon: PokemonDetail = await getPokemon(params.id);
 
